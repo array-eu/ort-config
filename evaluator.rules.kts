@@ -1694,6 +1694,190 @@ fun RuleSet.wrongLicenseInLicenseFileRule() = projectSourceRule("WRONG_LICENSE_I
     }
 }
 
+fun RuleSet.commercialInSourceRule() = packageRule("COMMERCIAL_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("COMMERCIAL_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isCommercial()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'commercial' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.freeRestrictedInSourceRule() = packageRule("FREE_RESTRICTED_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("FREE_RESTRICTED_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isFreeRestricted()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'free-restricted' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.genericInSourceRule() = packageRule("GENERIC_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("GENERIC_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isGeneric()
+            -isExcluded()
+            -isIgnored()
+        }
+
+        error(
+            "Some code in project sources might contain a license which is unknown to the " +
+                    " tooling. It was detected as $license which is just a trigger, but not a real license. Please " +
+                    "create a dedicated license identifier if the finding is valid.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.patentInSourceRule() = packageRule("PATENT_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PATENT_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isPatent()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'patent-license' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.proprietaryFreeInSourceRule() = packageRule("PROPRIETARY_FREE_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PROPRIETARY_FREE_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isProprietaryFree()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'proprietary-free' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.proprietaryInSourceRule() = packageRule("PROPRIETARY_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PROPRIETARY_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isProprietary()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'proprietary' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.sourceavailableInSourceRule() = packageRule("SOURCE_AVAILABLE_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("SOURCE_AVAILABLE_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isSourceavailable()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'source-available' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.unkownInSourceRule() = packageRule("UNKNOWN_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("UNKNOWN_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isUnknown()
+            -isIgnored()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources might contain a license which is unknown to the " +
+                    " tooling. It was detected as $license which is just a trigger, but not a real license. Please " +
+                    "create a dedicated license identifier if the finding is valid.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.unstatedInSourceRule() = packageRule("UNSTATED_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("UNSTATED_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isUnstated()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'unstated-licenses' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
 fun RuleSet.commonRules() {
     unhandledLicenseRule()
     unmappedDeclaredLicenseRule()
@@ -1731,6 +1915,15 @@ fun RuleSet.proprietaryProjectRules() {
     // Rules for project sources:
     copyleftInSourceRule()
     copyleftLimitedInSourceRule()
+    commercialInSourceRule()
+    freeRestrictedInSourceRule()
+    genericInSourceRule()
+    patentInSourceRule()
+    proprietaryFreeInSourceRule()
+    proprietaryInSourceRule()
+    sourceavailableInSourceRule()
+    unkownInSourceRule()
+    unstatedInSourceRule()
 
     // Rules for dependencies:
     commercialInDependencyRule()
