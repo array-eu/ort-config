@@ -1,4 +1,4 @@
-/*
+/* Copyright (C) 2024-2025 Alberto Pianon <pianon@array.eu>
  * Copyright (C) 2019 The ORT Project Authors (see <https://github.com/oss-review-toolkit/ort-config/blob/main/NOTICE>)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
