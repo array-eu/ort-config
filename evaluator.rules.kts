@@ -53,6 +53,7 @@ val sourceavailableLicenses = getLicensesForCategory("source-available")
 val publicDomainLicenses = getLicensesForCategory("public-domain")
 val unknownLicenses = getLicensesForCategory("unknown")
 val unstatedLicenses = getLicensesForCategory("unstated-license")
+val noassertionLicenses = getLicensesForCategory("noassertion")
 
 // Set of licenses, which are not acted upon by the below policy rules.
 val ignoredLicenses = listOf(
@@ -101,7 +102,8 @@ val handledLicenses = listOf(
     sourceavailableLicenses,
     publicDomainLicenses,
     unknownLicenses,
-    unstatedLicenses
+    unstatedLicenses,
+    noassertionLicenses
 ).flatten().let {
     it.getDuplicates().let { duplicates ->
         require(duplicates.isEmpty()) {
