@@ -24,6 +24,7 @@ categories:
 - name: "patent-license"
 - name: "permissive"
 - name: "proprietary-free"
+- name: "proprietary"
 - name: "public-domain"
 - name: "source-available"
 - name: "unknown"
@@ -8250,10 +8251,10 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-proprietary"
   categories:
-  - "generic"
+  - "proprietary"
 - id: "LicenseRef-scancode-proprietary-license"
   categories:
-  - "generic"
+  - "proprietary"
 - id: "LicenseRef-scancode-prosperity-1.0.1"
   categories:
   - "proprietary-free"
