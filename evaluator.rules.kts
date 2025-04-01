@@ -48,6 +48,8 @@ val genericLicenses = getLicensesForCategory("generic")
 val patentLicenses = getLicensesForCategory("patent-license")
 val permissiveLicenses = getLicensesForCategory("permissive")
 val proprietaryFreeLicenses = getLicensesForCategory("proprietary-free")
+val proprietaryLicenses = getLicensesForCategory("proprietary")
+val sourceavailableLicenses = getLicensesForCategory("source-available")
 val publicDomainLicenses = getLicensesForCategory("public-domain")
 val unknownLicenses = getLicensesForCategory("unknown")
 val unstatedLicenses = getLicensesForCategory("unstated-license")
@@ -95,6 +97,8 @@ val handledLicenses = listOf(
     patentLicenses,
     permissiveLicenses,
     proprietaryFreeLicenses,
+    proprietaryLicenses,
+    sourceavailableLicenses,
     publicDomainLicenses,
     unknownLicenses,
     unstatedLicenses
@@ -1110,6 +1114,20 @@ fun PackageRule.LicenseRule.isProprietaryFree() =
         override fun matches() = license in proprietaryFreeLicenses
     }
 
+fun PackageRule.LicenseRule.isProprietary() =
+    object : RuleMatcher {
+        override val description = "isProprietary($license)"
+
+        override fun matches() = license in proprietaryLicenses
+    }
+
+fun PackageRule.LicenseRule.isSourceavailable() =
+    object : RuleMatcher {
+        override val description = "isSourceavailable($license)"
+
+        override fun matches() = license in sourceavailableLicenses
+    }
+
 fun PackageRule.LicenseRule.isPatent() =
     object : RuleMatcher {
         override val description = "isPatent($license)"
@@ -1484,6 +1502,46 @@ fun RuleSet.proprietaryFreeInDependencyRule() = packageRule("PROPRIETARY_FREE_IN
     }
 }
 
+fun RuleSet.proprietaryInDependencyRule() = packageRule("PROPRIETARY_IN_DEPENDENCY") {
+    require {
+        -isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PROPRIETARY_IN_DEPENDENCY", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isProprietary()
+            -isExcluded()
+        }
+
+        error(
+            "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'proprietary' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.sourceavailableInDependencyRule() = packageRule("SOURCE_AVAILABLE_IN_DEPENDENCY") {
+    require {
+        -isProject()
+        -isExcluded()
+    }
+
+    licenseRule("SOURCE_AVAILABLE_IN_DEPENDENCY", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isSourceavailable()
+            -isExcluded()
+        }
+
+        error(
+            "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'source-available' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
 fun RuleSet.unkownInDependencyRule() = packageRule("UNKNOWN_IN_DEPENDENCY") {
     require {
         -isProject()
@@ -1680,6 +1738,8 @@ fun RuleSet.proprietaryProjectRules() {
     genericInDependencyRule()
     patentInDependencyRule()
     proprietaryFreeInDependencyRule()
+    proprietaryInDependencyRule()
+    sourceavailableInDependencyRule()
     unkownInDependencyRule()
     unstatedInDependencyRule()
 }
