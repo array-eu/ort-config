@@ -3971,6 +3971,9 @@ categorizations:
   categories:
   - "free-restricted"
   - "include-in-notice-file"
+- id: "LicenseRef-scancode-ecma-no-patent"
+  categories:
+  - "patent-license"
 - id: "LicenseRef-scancode-ecma-patent-coc-0"
   categories:
   - "proprietary-free"
