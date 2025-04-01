@@ -1429,7 +1429,7 @@ categorizations:
   - "include-in-notice-file"
 - id: "JSON"
   categories:
-  - "permissive"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "Jam"
   categories:
@@ -5646,7 +5646,7 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-json"
   categories:
-  - "permissive"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-json-js-pd"
   categories:
