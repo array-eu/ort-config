@@ -9781,11 +9781,11 @@ categorizations:
   - "generic"
 - id: "LicenseRef-scancode-unrar"
   categories:
-  - "source-available"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-unrar-v3"
   categories:
-  - "source-available"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-unsplash"
   categories:
