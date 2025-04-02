@@ -10713,6 +10713,10 @@ categorizations:
   categories:
   - "permissive"
   - "include-in-notice-file"
+- id: "Net-SNMP"
+  categories:
+  - "permissive"
+  - "include-in-notice-file"
 - id: "NetCDF"
   categories:
   - "permissive"
