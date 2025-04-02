@@ -30,6 +30,9 @@ val orgName = "Example Inc."
 val orgScanIssueTrackerName = "FOSS JIRA"
 val orgScanIssueTrackerMdLink = "[$orgScanIssueTrackerName](https://jira.example.com/FOSS)"
 
+val disableHowToFix = (System.getenv("ORT_EVALUATOR_HOWTOFIX_DISABLE") == "true")
+val disabledHowToFixText = "Check with your compliance team to resolve this issue."
+
 /**
  * Import the license classifications from license-classifications.yml.
  */
@@ -299,7 +302,13 @@ fun PackageRule.howToFixLicenseViolationDefault(
     license: String,
     licenseSource: LicenseSource
 ): String {
+
+    if (disableHowToFix) {
+        return disabledHowToFixText
+    }
+
     if (ortResult.isProject(pkg.metadata.id)) {
+
         // Violation is flagged for the project scanned.
         if (licenseSource == LicenseSource.DETECTED) {
             // License is detected by the scanner in the source code of the project.
@@ -324,6 +333,9 @@ fun PackageRule.howToFixUnhandledLicense(
     license: String,
     licenseSource: LicenseSource
 ) : String {
+    if (disableHowToFix) {
+        return disabledHowToFixText
+    }
     val createIssueText = """
         |1. If an issue to add this license does not already exist in $orgScanIssueTrackerMdLink, please create it.
         |2. Set the _Summary_ field to 'Add new license $license'.
@@ -380,6 +392,11 @@ fun PackageRule.howToFixOssProjectDefault() = """
     """.trimIndent()
 
 fun PackageRule.howToFixUnmappedDeclaredLicense(license: String): String {
+
+    if (disableHowToFix) {
+        return disabledHowToFixText
+    }
+
     val genericDeclaredLicenses = setOf(
         "BSD License",
         "The BSD License"
@@ -612,7 +629,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             |Try to resolve this violation by following the advice below:
             |
             |1. Clone $ortConfigVcsMdLink using Git.
-            |2. Download and extract:  
+            |2. Download and extract:
             |   - $binaryUrlMdLink
             |   - $sourcesUrlMdLink
             |4. Find the lines which triggered this violation:
@@ -738,7 +755,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             !   - Expand the _Scan Results_ section  under '${pkg.id.toCoordinates()}' in `*-scan-report-web-app.html`
             |   - Filter the _Value_ column, selecting only the licenses to which the violation refers
             |4. Open the $vcsUrlMdLink in a web browser and find the source code for version `${pkg.id.version}`.
-            |5. If the extracted $binaryUrlMdLink contains fewer files or directories than shown under 
+            |5. If the extracted $binaryUrlMdLink contains fewer files or directories than shown under
             |   the _Scan Results_ for '${pkg.id.toCoordinates()}' in `*-scan-report-web-app.html`, you may need to
             |   limit the number of files/directories the scanner scans. For example, if the repository contains other
             |   packages and not just '${pkg.id.toCoordinates()}':
@@ -774,7 +791,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             |6. If there are license file findings for '${pkg.id.toCoordinates()}' in directories in $vcsUrlMdLink but not in the extracted $binaryUrlMdLink:
             |   - Create a directory `${getPackageConfigurationFilePath(pkg.id)}` with a file named `vcs.yml`.
             |   - Open `vcs.yml` in a text editor.
-            |   - For each _directory_ found in the $vcsUrlMdLink but not in extracted $binaryUrlMdLink, add a $ortPackageConfigurationFileMdLink entry 
+            |   - For each _directory_ found in the $vcsUrlMdLink but not in extracted $binaryUrlMdLink, add a $ortPackageConfigurationFileMdLink entry
             |     with a $ortYmlFilePathExcludeMdLink.
             |     .
             |     Use the following template, changing the text in square brackets (`[...]`) as appropriate.
@@ -919,7 +936,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             |5. If there are license findings for '${pkg.id.toCoordinates()}' in directories in $vcsUrlMdLink used only for building or testing the code:
             |   - Create a directory `${getPackageConfigurationFilePath(pkg.id)}` with a file named `vcs.yml`.
             |   - Open `vcs.yml` in a text editor.
-            |   - For each _directory_ found in the $vcsUrlMdLink, but not in extracted $binaryUrlMdLink, add a 
+            |   - For each _directory_ found in the $vcsUrlMdLink, but not in extracted $binaryUrlMdLink, add a
             |     $ortPackageConfigurationFileMdLink entry with a $ortYmlFilePathExcludeMdLink.
             |     Use the following template, changing the text in square brackets (`[...]`) as appropriate.
             |
