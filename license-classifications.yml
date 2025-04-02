@@ -8677,7 +8677,7 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-saxix-mit"
   categories:
-  - "proprietary-free"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-saxpath"
   categories:
