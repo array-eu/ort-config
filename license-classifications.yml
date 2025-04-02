@@ -29,6 +29,7 @@ categories:
 - name: "source-available"
 - name: "unknown"
 - name: "unstated-license"
+- name: "noassertion"
 categorizations:
 - id: "0BSD"
   categories:
@@ -10676,6 +10677,9 @@ categorizations:
   categories:
   - "public-domain"
   - "include-in-notice-file"
+- id: "NOASSERTION"
+  categories:
+  - "noassertion"
 - id: "NOSL"
   categories:
   - "copyleft-limited"
