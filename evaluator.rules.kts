@@ -44,6 +44,7 @@ val commercialLicenses = getLicensesForCategory("commercial")
 val copyleftLicenses = getLicensesForCategory("copyleft")
 val copyleftLimitedLicenses = getLicensesForCategory("copyleft-limited")
 val freeRestrictedLicenses = getLicensesForCategory("free-restricted")
+val freeRestrictedCopyleftLicenses = getLicensesForCategory("free-restricted-copyleft")
 val genericLicenses = getLicensesForCategory("generic")
 val patentLicenses = getLicensesForCategory("patent-license")
 val permissiveLicenses = getLicensesForCategory("permissive")
@@ -93,6 +94,7 @@ val handledLicenses = listOf(
     copyleftLicenses,
     copyleftLimitedLicenses,
     freeRestrictedLicenses,
+    freeRestrictedCopyleftLicenses,
     genericLicenses,
     patentLicenses,
     permissiveLicenses,
@@ -1093,6 +1095,13 @@ fun PackageRule.LicenseRule.isFreeRestricted() =
         override fun matches() = license in freeRestrictedLicenses
     }
 
+fun PackageRule.LicenseRule.isFreeRestrictedCopyleft() =
+    object : RuleMatcher {
+        override val description = "isFreeRestrictedCopyleft($license)"
+
+        override fun matches() = license in freeRestrictedCopyleftLicenses
+    }
+
 fun PackageRule.LicenseRule.isGeneric() =
     object : RuleMatcher {
         override val description = "isGeneric($license)"
@@ -1314,6 +1323,26 @@ fun RuleSet.freeRestrictedInDependencyRule() = packageRule("FREE_RESTRICTED_IN_D
 
         error(
             "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'free-restricted' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.freeRestrictedCopyleftInDependencyRule() = packageRule("FREE_RESTRICTED_COPYLEFT_IN_DEPENDENCY") {
+    require {
+        -isProject()
+        -isExcluded()
+    }
+
+    licenseRule("FREE_RESTRICTED_COPYLEFT_IN_DEPENDENCY", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isFreeRestrictedCopyleft()
+            -isExcluded()
+        }
+
+        error(
+            "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'free-restricted-copyleft' " +
                     "categorized license $license. This requires approval.",
             howToFixLicenseViolationDefault(license.toString(), licenseSource)
         )
@@ -1735,6 +1764,7 @@ fun RuleSet.proprietaryProjectRules() {
     copyleftInDependencyRule()
     copyleftLimitedInDependencyRule()
     freeRestrictedInDependencyRule()
+    freeRestrictedCopyleftInDependencyRule()
     genericInDependencyRule()
     patentInDependencyRule()
     proprietaryFreeInDependencyRule()
