@@ -1,4 +1,4 @@
-/*
+/* Copyright (C) 2024-2025 Alberto Pianon <pianon@array.eu>
  * Copyright (C) 2019 The ORT Project Authors (see <https://github.com/oss-review-toolkit/ort-config/blob/main/NOTICE>)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,9 @@ val orgName = "Example Inc."
 val orgScanIssueTrackerName = "FOSS JIRA"
 val orgScanIssueTrackerMdLink = "[$orgScanIssueTrackerName](https://jira.example.com/FOSS)"
 
+val disableHowToFix = (System.getenv("ORT_EVALUATOR_HOWTOFIX_DISABLE") == "true")
+val disabledHowToFixText = "Check with your compliance team to resolve this issue."
+
 /**
  * Import the license classifications from license-classifications.yml.
  */
@@ -44,13 +47,17 @@ val commercialLicenses = getLicensesForCategory("commercial")
 val copyleftLicenses = getLicensesForCategory("copyleft")
 val copyleftLimitedLicenses = getLicensesForCategory("copyleft-limited")
 val freeRestrictedLicenses = getLicensesForCategory("free-restricted")
+val freeRestrictedCopyleftLicenses = getLicensesForCategory("free-restricted-copyleft")
 val genericLicenses = getLicensesForCategory("generic")
 val patentLicenses = getLicensesForCategory("patent-license")
 val permissiveLicenses = getLicensesForCategory("permissive")
 val proprietaryFreeLicenses = getLicensesForCategory("proprietary-free")
+val proprietaryLicenses = getLicensesForCategory("proprietary")
+val sourceavailableLicenses = getLicensesForCategory("source-available")
 val publicDomainLicenses = getLicensesForCategory("public-domain")
 val unknownLicenses = getLicensesForCategory("unknown")
 val unstatedLicenses = getLicensesForCategory("unstated-license")
+val noassertionLicenses = getLicensesForCategory("noassertion")
 
 // Set of licenses, which are not acted upon by the below policy rules.
 val ignoredLicenses = listOf(
@@ -91,13 +98,17 @@ val handledLicenses = listOf(
     copyleftLicenses,
     copyleftLimitedLicenses,
     freeRestrictedLicenses,
+    freeRestrictedCopyleftLicenses,
     genericLicenses,
     patentLicenses,
     permissiveLicenses,
     proprietaryFreeLicenses,
+    proprietaryLicenses,
+    sourceavailableLicenses,
     publicDomainLicenses,
     unknownLicenses,
-    unstatedLicenses
+    unstatedLicenses,
+    noassertionLicenses
 ).flatten().let {
     it.getDuplicates().let { duplicates ->
         require(duplicates.isEmpty()) {
@@ -291,7 +302,13 @@ fun PackageRule.howToFixLicenseViolationDefault(
     license: String,
     licenseSource: LicenseSource
 ): String {
+
+    if (disableHowToFix) {
+        return disabledHowToFixText
+    }
+
     if (ortResult.isProject(pkg.metadata.id)) {
+
         // Violation is flagged for the project scanned.
         if (licenseSource == LicenseSource.DETECTED) {
             // License is detected by the scanner in the source code of the project.
@@ -316,6 +333,9 @@ fun PackageRule.howToFixUnhandledLicense(
     license: String,
     licenseSource: LicenseSource
 ) : String {
+    if (disableHowToFix) {
+        return disabledHowToFixText
+    }
     val createIssueText = """
         |1. If an issue to add this license does not already exist in $orgScanIssueTrackerMdLink, please create it.
         |2. Set the _Summary_ field to 'Add new license $license'.
@@ -372,6 +392,11 @@ fun PackageRule.howToFixOssProjectDefault() = """
     """.trimIndent()
 
 fun PackageRule.howToFixUnmappedDeclaredLicense(license: String): String {
+
+    if (disableHowToFix) {
+        return disabledHowToFixText
+    }
+
     val genericDeclaredLicenses = setOf(
         "BSD License",
         "The BSD License"
@@ -604,7 +629,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             |Try to resolve this violation by following the advice below:
             |
             |1. Clone $ortConfigVcsMdLink using Git.
-            |2. Download and extract:  
+            |2. Download and extract:
             |   - $binaryUrlMdLink
             |   - $sourcesUrlMdLink
             |4. Find the lines which triggered this violation:
@@ -730,7 +755,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             !   - Expand the _Scan Results_ section  under '${pkg.id.toCoordinates()}' in `*-scan-report-web-app.html`
             |   - Filter the _Value_ column, selecting only the licenses to which the violation refers
             |4. Open the $vcsUrlMdLink in a web browser and find the source code for version `${pkg.id.version}`.
-            |5. If the extracted $binaryUrlMdLink contains fewer files or directories than shown under 
+            |5. If the extracted $binaryUrlMdLink contains fewer files or directories than shown under
             |   the _Scan Results_ for '${pkg.id.toCoordinates()}' in `*-scan-report-web-app.html`, you may need to
             |   limit the number of files/directories the scanner scans. For example, if the repository contains other
             |   packages and not just '${pkg.id.toCoordinates()}':
@@ -766,7 +791,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             |6. If there are license file findings for '${pkg.id.toCoordinates()}' in directories in $vcsUrlMdLink but not in the extracted $binaryUrlMdLink:
             |   - Create a directory `${getPackageConfigurationFilePath(pkg.id)}` with a file named `vcs.yml`.
             |   - Open `vcs.yml` in a text editor.
-            |   - For each _directory_ found in the $vcsUrlMdLink but not in extracted $binaryUrlMdLink, add a $ortPackageConfigurationFileMdLink entry 
+            |   - For each _directory_ found in the $vcsUrlMdLink but not in extracted $binaryUrlMdLink, add a $ortPackageConfigurationFileMdLink entry
             |     with a $ortYmlFilePathExcludeMdLink.
             |     .
             |     Use the following template, changing the text in square brackets (`[...]`) as appropriate.
@@ -911,7 +936,7 @@ fun resolveViolationInDependencySourceCodeText(pkg: Package, license: String) : 
             |5. If there are license findings for '${pkg.id.toCoordinates()}' in directories in $vcsUrlMdLink used only for building or testing the code:
             |   - Create a directory `${getPackageConfigurationFilePath(pkg.id)}` with a file named `vcs.yml`.
             |   - Open `vcs.yml` in a text editor.
-            |   - For each _directory_ found in the $vcsUrlMdLink, but not in extracted $binaryUrlMdLink, add a 
+            |   - For each _directory_ found in the $vcsUrlMdLink, but not in extracted $binaryUrlMdLink, add a
             |     $ortPackageConfigurationFileMdLink entry with a $ortYmlFilePathExcludeMdLink.
             |     Use the following template, changing the text in square brackets (`[...]`) as appropriate.
             |
@@ -1089,6 +1114,13 @@ fun PackageRule.LicenseRule.isFreeRestricted() =
         override fun matches() = license in freeRestrictedLicenses
     }
 
+fun PackageRule.LicenseRule.isFreeRestrictedCopyleft() =
+    object : RuleMatcher {
+        override val description = "isFreeRestrictedCopyleft($license)"
+
+        override fun matches() = license in freeRestrictedCopyleftLicenses
+    }
+
 fun PackageRule.LicenseRule.isGeneric() =
     object : RuleMatcher {
         override val description = "isGeneric($license)"
@@ -1108,6 +1140,20 @@ fun PackageRule.LicenseRule.isProprietaryFree() =
         override val description = "isProprietaryFree($license)"
 
         override fun matches() = license in proprietaryFreeLicenses
+    }
+
+fun PackageRule.LicenseRule.isProprietary() =
+    object : RuleMatcher {
+        override val description = "isProprietary($license)"
+
+        override fun matches() = license in proprietaryLicenses
+    }
+
+fun PackageRule.LicenseRule.isSourceavailable() =
+    object : RuleMatcher {
+        override val description = "isSourceavailable($license)"
+
+        override fun matches() = license in sourceavailableLicenses
     }
 
 fun PackageRule.LicenseRule.isPatent() =
@@ -1302,6 +1348,26 @@ fun RuleSet.freeRestrictedInDependencyRule() = packageRule("FREE_RESTRICTED_IN_D
     }
 }
 
+fun RuleSet.freeRestrictedCopyleftInDependencyRule() = packageRule("FREE_RESTRICTED_COPYLEFT_IN_DEPENDENCY") {
+    require {
+        -isProject()
+        -isExcluded()
+    }
+
+    licenseRule("FREE_RESTRICTED_COPYLEFT_IN_DEPENDENCY", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isFreeRestrictedCopyleft()
+            -isExcluded()
+        }
+
+        error(
+            "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'free-restricted-copyleft' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
 fun RuleSet.genericInDependencyRule() = packageRule("GENERIC_IN_DEPENDENCY") {
     require {
         -isProject()
@@ -1484,6 +1550,46 @@ fun RuleSet.proprietaryFreeInDependencyRule() = packageRule("PROPRIETARY_FREE_IN
     }
 }
 
+fun RuleSet.proprietaryInDependencyRule() = packageRule("PROPRIETARY_IN_DEPENDENCY") {
+    require {
+        -isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PROPRIETARY_IN_DEPENDENCY", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isProprietary()
+            -isExcluded()
+        }
+
+        error(
+            "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'proprietary' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.sourceavailableInDependencyRule() = packageRule("SOURCE_AVAILABLE_IN_DEPENDENCY") {
+    require {
+        -isProject()
+        -isExcluded()
+    }
+
+    licenseRule("SOURCE_AVAILABLE_IN_DEPENDENCY", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isSourceavailable()
+            -isExcluded()
+        }
+
+        error(
+            "The dependency '${pkg.metadata.id.toCoordinates()}' is licensed under the ScanCode 'source-available' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
 fun RuleSet.unkownInDependencyRule() = packageRule("UNKNOWN_IN_DEPENDENCY") {
     require {
         -isProject()
@@ -1634,6 +1740,210 @@ fun RuleSet.wrongLicenseInLicenseFileRule() = projectSourceRule("WRONG_LICENSE_I
     }
 }
 
+fun RuleSet.commercialInSourceRule() = packageRule("COMMERCIAL_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("COMMERCIAL_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isCommercial()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'commercial' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.freeRestrictedInSourceRule() = packageRule("FREE_RESTRICTED_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("FREE_RESTRICTED_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isFreeRestricted()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'free-restricted' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.freeRestrictedCopyleftInSourceRule() = packageRule("FREE_RESTRICTED_COPYLEFT_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("FREE_RESTRICTED_COPYLEFT_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isFreeRestrictedCopyleft()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'free-restricted-copyleft' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.genericInSourceRule() = packageRule("GENERIC_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("GENERIC_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isGeneric()
+            -isExcluded()
+            -isIgnored()
+        }
+
+        error(
+            "Some code in project sources might contain a license which is unknown to the " +
+                    " tooling. It was detected as $license which is just a trigger, but not a real license. Please " +
+                    "create a dedicated license identifier if the finding is valid.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.patentInSourceRule() = packageRule("PATENT_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PATENT_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isPatent()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'patent-license' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.proprietaryFreeInSourceRule() = packageRule("PROPRIETARY_FREE_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PROPRIETARY_FREE_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isProprietaryFree()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'proprietary-free' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.proprietaryInSourceRule() = packageRule("PROPRIETARY_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("PROPRIETARY_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isProprietary()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'proprietary' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.sourceavailableInSourceRule() = packageRule("SOURCE_AVAILABLE_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("SOURCE_AVAILABLE_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isSourceavailable()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'source-available' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.unkownInSourceRule() = packageRule("UNKNOWN_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("UNKNOWN_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isUnknown()
+            -isIgnored()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources might contain a license which is unknown to the " +
+                    " tooling. It was detected as $license which is just a trigger, but not a real license. Please " +
+                    "create a dedicated license identifier if the finding is valid.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
+fun RuleSet.unstatedInSourceRule() = packageRule("UNSTATED_IN_SOURCE") {
+    require {
+        +isProject()
+        -isExcluded()
+    }
+
+    licenseRule("UNSTATED_IN_SOURCE", LicenseView.CONCLUDED_OR_DECLARED_AND_DETECTED) {
+        require {
+            +isUnstated()
+            -isExcluded()
+        }
+
+        error(
+            "Some code in project sources is licensed under the ScanCode 'unstated-licenses' " +
+                    "categorized license $license. This requires approval.",
+            howToFixLicenseViolationDefault(license.toString(), licenseSource)
+        )
+    }
+}
+
 fun RuleSet.commonRules() {
     unhandledLicenseRule()
     unmappedDeclaredLicenseRule()
@@ -1671,15 +1981,28 @@ fun RuleSet.proprietaryProjectRules() {
     // Rules for project sources:
     copyleftInSourceRule()
     copyleftLimitedInSourceRule()
+    commercialInSourceRule()
+    freeRestrictedInSourceRule()
+    freeRestrictedCopyleftInSourceRule()
+    genericInSourceRule()
+    patentInSourceRule()
+    proprietaryFreeInSourceRule()
+    proprietaryInSourceRule()
+    sourceavailableInSourceRule()
+    unkownInSourceRule()
+    unstatedInSourceRule()
 
     // Rules for dependencies:
     commercialInDependencyRule()
     copyleftInDependencyRule()
     copyleftLimitedInDependencyRule()
     freeRestrictedInDependencyRule()
+    freeRestrictedCopyleftInDependencyRule()
     genericInDependencyRule()
     patentInDependencyRule()
     proprietaryFreeInDependencyRule()
+    proprietaryInDependencyRule()
+    sourceavailableInDependencyRule()
     unkownInDependencyRule()
     unstatedInDependencyRule()
 }

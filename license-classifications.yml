@@ -18,16 +18,19 @@ categories:
 - name: "copyleft"
 - name: "copyleft-limited"
 - name: "free-restricted"
+- name: "free-restricted-copyleft"
 - name: "generic"
 - name: "include-in-notice-file"
 - name: "include-source-code-offer-in-notice-file"
 - name: "patent-license"
 - name: "permissive"
 - name: "proprietary-free"
+- name: "proprietary"
 - name: "public-domain"
 - name: "source-available"
 - name: "unknown"
 - name: "unstated-license"
+- name: "noassertion"
 categorizations:
 - id: "0BSD"
   categories:
@@ -496,170 +499,160 @@ categorizations:
   - "include-in-notice-file"
 - id: "CC-BY-NC-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-3.0-DE"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-3.0-DE"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-3.0-IGO"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-ND-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-NC-SA-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-2.0-DE"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-2.0-FR"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-2.0-UK"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-3.0-DE"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-3.0-IGO"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-NC-SA-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "CC-BY-ND-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-ND-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-ND-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-ND-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-ND-3.0-DE"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-ND-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "CC-BY-SA-1.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-2.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-2.0-UK"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-2.1-JP"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-2.5"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-3.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-3.0-AT"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-3.0-DE"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-3.0-IGO"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-BY-SA-4.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "CC-PDDC"
   categories:
   - "public-domain"
@@ -672,7 +665,6 @@ categorizations:
   categories:
   - "copyleft"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
 - id: "CC0-1.0"
   categories:
   - "public-domain"
@@ -1145,6 +1137,11 @@ categorizations:
   - "copyleft"
   - "include-in-notice-file"
   - "include-source-code-offer-in-notice-file"
+- id: "GPL-2.0 WITH Classpath-exception-2.0"
+  categories:
+  - "copyleft-limited"
+  - "include-in-notice-file"
+  - "include-source-code-offer-in-notice-file"
 - id: "GPL-2.0-only"
   categories:
   - "copyleft"
@@ -1423,7 +1420,7 @@ categorizations:
   - "include-in-notice-file"
 - id: "JSON"
   categories:
-  - "permissive"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "Jam"
   categories:
@@ -1486,6 +1483,11 @@ categorizations:
   - "include-in-notice-file"
   - "include-source-code-offer-in-notice-file"
 - id: "LGPLLR"
+  categories:
+  - "copyleft-limited"
+  - "include-in-notice-file"
+  - "include-source-code-offer-in-notice-file"
+- id: "LLGPL"
   categories:
   - "copyleft-limited"
   - "include-in-notice-file"
@@ -2909,182 +2911,172 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-cc-by-nc-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-3.0-de"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-2.0-at"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-2.0-au"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-3.0-de"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-3.0-igo"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-nd-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nc-sa-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-2.0-de"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-2.0-fr"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-2.0-uk"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-3.0-de"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-3.0-igo"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-3.0-us"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nc-sa-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted-copyleft"
 - id: "LicenseRef-scancode-cc-by-nd-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nd-2.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nd-2.5"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nd-3.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nd-3.0-de"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-nd-4.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-by-sa-1.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-2.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-2.0-uk"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-2.1-jp"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-2.5"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-3.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-3.0-at"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-3.0-de"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-3.0-igo"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-by-sa-4.0"
   categories:
-  - "copyleft-limited"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
+  - "copyleft"
 - id: "LicenseRef-scancode-cc-devnations-2.0"
   categories:
   - "proprietary-free"
@@ -3101,16 +3093,16 @@ categorizations:
   - "include-source-code-offer-in-notice-file"
 - id: "LicenseRef-scancode-cc-nc-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-nc-sampling-plus-1.0"
   categories:
-  - "proprietary-free"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-nd-1.0"
   categories:
-  - "source-available"
   - "include-in-notice-file"
+  - "free-restricted"
 - id: "LicenseRef-scancode-cc-pd"
   categories:
   - "public-domain"
@@ -3123,7 +3115,6 @@ categorizations:
   categories:
   - "copyleft"
   - "include-in-notice-file"
-  - "include-source-code-offer-in-notice-file"
 - id: "LicenseRef-scancode-cc-sampling-1.0"
   categories:
   - "proprietary-free"
@@ -3960,6 +3951,9 @@ categorizations:
   categories:
   - "free-restricted"
   - "include-in-notice-file"
+- id: "LicenseRef-scancode-ecma-no-patent"
+  categories:
+  - "patent-license"
 - id: "LicenseRef-scancode-ecma-patent-coc-0"
   categories:
   - "proprietary-free"
@@ -5640,7 +5634,7 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-json"
   categories:
-  - "permissive"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-json-js-pd"
   categories:
@@ -6018,6 +6012,11 @@ categorizations:
   categories:
   - "proprietary-free"
   - "include-in-notice-file"
+- id: "LicenseRef-scancode-llgpl"
+  categories:
+  - "copyleft-limited"
+  - "include-in-notice-file"
+  - "include-source-code-offer-in-notice-file"
 - id: "LicenseRef-scancode-llnl"
   categories:
   - "permissive"
@@ -8250,10 +8249,10 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-proprietary"
   categories:
-  - "generic"
+  - "proprietary"
 - id: "LicenseRef-scancode-proprietary-license"
   categories:
-  - "generic"
+  - "proprietary"
 - id: "LicenseRef-scancode-prosperity-1.0.1"
   categories:
   - "proprietary-free"
@@ -8678,7 +8677,7 @@ categorizations:
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-saxix-mit"
   categories:
-  - "proprietary-free"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-saxpath"
   categories:
@@ -9782,11 +9781,11 @@ categorizations:
   - "generic"
 - id: "LicenseRef-scancode-unrar"
   categories:
-  - "source-available"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-unrar-v3"
   categories:
-  - "source-available"
+  - "free-restricted"
   - "include-in-notice-file"
 - id: "LicenseRef-scancode-unsplash"
   categories:
@@ -10675,6 +10674,9 @@ categorizations:
   categories:
   - "public-domain"
   - "include-in-notice-file"
+- id: "NOASSERTION"
+  categories:
+  - "noassertion"
 - id: "NOSL"
   categories:
   - "copyleft-limited"
@@ -10708,6 +10710,10 @@ categorizations:
   - "permissive"
   - "include-in-notice-file"
 - id: "Naumen"
+  categories:
+  - "permissive"
+  - "include-in-notice-file"
+- id: "Net-SNMP"
   categories:
   - "permissive"
   - "include-in-notice-file"
